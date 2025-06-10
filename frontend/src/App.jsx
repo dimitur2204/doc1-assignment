@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import config from './config'
 
 function App() {
   const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchMessage = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_API_URL || 'http://localhost:3000/api/hello')
-                console.log('Response:', response.data)
+        const response = await axios.get(`${config.apiUrl}/api/hello`, {
+          withCredentials: true
+        })
         setMessage(response.data.message)
+        setError('')
       } catch (error) {
         console.error('Error fetching message:', error)
-        setMessage('Error connecting to backend')
+        setError('Error connecting to backend')
+        setMessage('')
       }
     }
 
@@ -30,7 +35,11 @@ function App() {
       backgroundColor: '#f0f2f5'
     }}>
       <h1 style={{ color: '#1a73e8' }}>Hello World App</h1>
-      <p style={{ fontSize: '1.2rem', color: '#333' }}>{message}</p>
+      {error ? (
+        <p style={{ color: 'red' }}>{error}</p>
+      ) : (
+        <p style={{ fontSize: '1.2rem', color: '#333' }}>{message}</p>
+      )}
     </div>
   )
 }
