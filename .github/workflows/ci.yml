@@ -27,7 +27,7 @@ jobs:
     - name: Build Backend
       run: |
         cd backend
-        npm run build
+        npm run start
 
   backend-test:
     needs: backend-build
