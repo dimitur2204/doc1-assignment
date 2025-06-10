@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  backend-build:
+  backend-lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
     - name: Build Backend
       run: |
         cd backend
-        npm run start
+        npm run lint
 
   backend-test:
     needs: backend-build
