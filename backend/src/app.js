@@ -1,29 +1,30 @@
-const express = require('express')
-const cors = require('cors')
+const express = require("express");
+const cors = require("cors");
 
-const app = express()
+const app = express();
 
 // CORS configuration - most permissive for development
 const corsOptions = {
-  origin: true, // Allow all origins but handle credentials properly
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
-  maxAge: 86400 // Cache preflight requests for 24 hours
-}
+  origin: "*", // Allow all origins
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all common HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+  exposedHeaders: ["Content-Length", "X-Requested-With"], // Expose specific headers to the client
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  maxAge: 86400, // Cache preflight requests for 24 hours
+};
 
 // Middleware
-app.use(cors(corsOptions))
-app.use(express.json())
+app.use(cors(corsOptions));
+app.use(express.json());
 
 // Routes
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello from the backend!' })
-})
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Hello from the backend!" });
+});
 
 // Error handling
 app.use((req, res) => {
-  res.status(404).json({ error: 'Not Found' })
-})
+  res.status(404).json({ error: "Not Found" });
+});
 
-module.exports = app 
+module.exports = app;
