@@ -56,35 +56,3 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'latest'
-
-    - name: Configure kubectl
-      run: |
-        echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-        export KUBECONFIG=kubeconfig.yaml
-
-    - name: Deploy to Kubernetes
-      run: |
-        # Update image names in Kubernetes manifests
-        sed -i "s|hello-world-backend:latest|${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:latest|g" k8s/backend-deployment.yaml
-        sed -i "s|hello-world-frontend:latest|${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:latest|g" k8s/frontend-deployment.yaml
-        
-        # Apply Kubernetes manifests
-        kubectl apply -f k8s/backend-deployment.yaml
-        kubectl apply -f k8s/backend-service.yaml
-        kubectl apply -f k8s/frontend-deployment.yaml
-        kubectl apply -f k8s/frontend-service.yaml
-        
-        # Wait for deployments to be ready
-        kubectl rollout status deployment/backend
-        kubectl rollout status deployment/frontend
-
-    # Add your deployment steps here
-    # For example, deploying to a cloud provider
-    # - name: Deploy to Production
-    #   run: |
-    #     echo "Add your deployment commands here" 
