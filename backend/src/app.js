@@ -3,8 +3,10 @@ const cors = require("cors");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+}));
 app.use(express.json());
 
 // Routes
