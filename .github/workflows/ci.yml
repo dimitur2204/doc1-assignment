@@ -7,31 +7,90 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  backend-build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
-
+    
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
 
     - name: Install Backend Dependencies
       run: |
         cd backend
-        npm install
+        npm ci
+
+    - name: Build Backend
+      run: |
+        cd backend
+        npm run build
+
+  backend-test:
+    needs: backend-build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm ci
 
     - name: Run Backend Tests
       run: |
         cd backend
         npm test
 
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
     - name: Install Frontend Dependencies
       run: |
         cd frontend
-        npm install
+        npm ci
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
+
+  frontend-test:
+    needs: frontend-build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
 
     - name: Run Frontend Tests
       run: |

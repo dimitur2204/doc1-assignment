@@ -77,11 +77,21 @@ The application will be available at:
 ## CI/CD
 
 The project includes GitHub Actions workflows for:
-- Continuous Integration (CI): Runs tests and linting
-- Continuous Deployment (CD): Builds Docker images and deploys to Kubernetes
+
+### Continuous Integration (CI)
+- Backend Build: Builds the backend application
+- Backend Test: Runs backend tests
+- Frontend Build: Builds the frontend application
+- Frontend Test: Runs frontend tests
+
+### Continuous Deployment (CD)
+- Builds and pushes Docker images to container registry
+- Uses GitHub SHA for image versioning
+- Implements Docker layer caching for faster builds
 
 ### Required Secrets
 
 For the CD workflow to work, you need to set up the following secrets in your GitHub repository:
 - `DOCKER_REGISTRY`: Your Docker registry URL (e.g., docker.io/username)
-- `KUBE_CONFIG`: Your Kubernetes cluster configuration file content 
+- `DOCKER_USERNAME`: Your Docker registry username
+- `DOCKER_PASSWORD`: Your Docker registry password 
