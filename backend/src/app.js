@@ -5,11 +5,10 @@ const app = express()
 
 // CORS configuration - most permissive for development
 const corsOptions = {
-  origin: '*', // Allow all origins
-  methods: '*', // Allow all methods
-  allowedHeaders: '*', // Allow all headers
-  exposedHeaders: '*', // Expose all headers
-  credentials: true,
+  origin: true, // Allow all origins but handle credentials properly
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
   maxAge: 86400 // Cache preflight requests for 24 hours
 }
 

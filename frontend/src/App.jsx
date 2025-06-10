@@ -10,7 +10,11 @@ function App() {
     const fetchMessage = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/api/hello`, {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
         })
         setMessage(response.data.message)
         setError('')
