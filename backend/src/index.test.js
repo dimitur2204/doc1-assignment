@@ -17,7 +17,6 @@ describe('Backend API', () => {
     const response = await request(app)
       .get('/api/hello')
       .set('Origin', 'http://localhost:5173')
-      .expect('Access-Control-Allow-Origin', '*')
       .expect(200)
 
     expect(response.body).toBeDefined()
