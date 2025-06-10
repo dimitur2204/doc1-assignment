@@ -51,7 +51,23 @@ npm run dev
 
 1. Make sure you have access to a Kubernetes cluster and kubectl configured.
 
-2. Apply the Kubernetes manifests:
+2. For Apple Silicon (M1/M2) Macs:
+```bash
+# Start minikube with the correct driver
+minikube start --driver=docker
+
+# Enable the registry addon
+minikube addons enable registry
+
+# Point your shell to minikube's docker-daemon
+eval $(minikube docker-env)
+
+# Pull the multi-arch images
+docker pull ghcr.io/dimitur2204/doc1-assignment/backend:latest
+docker pull ghcr.io/dimitur2204/doc1-assignment/frontend:main
+```
+
+3. Apply the Kubernetes manifests:
 ```bash
 kubectl apply -f k8s/backend-deployment.yaml
 kubectl apply -f k8s/backend-service.yaml
@@ -59,13 +75,13 @@ kubectl apply -f k8s/frontend-deployment.yaml
 kubectl apply -f k8s/frontend-service.yaml
 ```
 
-3. Check the deployment status:
+4. Check the deployment status:
 ```bash
 kubectl get deployments
 kubectl get services
 ```
 
-4. Get the external IP for the frontend service:
+5. Get the external IP for the frontend service:
 ```bash
 kubectl get service frontend-service
 ```
@@ -85,15 +101,16 @@ The project includes GitHub Actions workflows for:
 - Frontend Test: Runs frontend tests
 
 ### Continuous Deployment (CD)
-- Builds and pushes Docker images to GitHub Container Registry (GHCR)
+- Builds and pushes multi-architecture Docker images to GitHub Container Registry (GHCR)
+- Supports both AMD64 and ARM64 architectures
 - Uses semantic versioning for image tags
 - Implements Docker layer caching for faster builds
 
 ### Container Images
 
 The application's container images are available on GitHub Container Registry:
-- Backend: `ghcr.io/<your-username>/<your-repo>/backend`
-- Frontend: `ghcr.io/<your-username>/<your-repo>/frontend`
+- Backend: `ghcr.io/dimitur2204/doc1-assignment/backend`
+- Frontend: `ghcr.io/dimitur2204/doc1-assignment/frontend`
 
 To use these images:
 1. Make sure you're logged in to GHCR:
@@ -103,11 +120,11 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 
 2. Pull the images:
 ```bash
-docker pull ghcr.io/<your-username>/<your-repo>/backend:latest
-docker pull ghcr.io/<your-username>/<your-repo>/frontend:latest
+docker pull ghcr.io/dimitur2204/doc1-assignment/backend:latest
+docker pull ghcr.io/dimitur2204/doc1-assignment/frontend:main
 ```
 
-Note: Replace `<your-username>` and `<your-repo>` with your actual GitHub username and repository name.
+Note: The images are built for both AMD64 and ARM64 architectures, making them compatible with both Intel/AMD and Apple Silicon processors.
 
 ### Required Secrets
 
