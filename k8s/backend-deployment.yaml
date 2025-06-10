@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
+        imagePullPolicy: Always
         image: ghcr.io/dimitur2204/doc1-assignment/backend:main
         ports:
         - containerPort: 3000

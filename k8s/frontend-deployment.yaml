@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
+        imagePullPolicy: Always
         image: ghcr.io/dimitur2204/doc1-assignment/frontend:main
         ports:
         - containerPort: 5173
