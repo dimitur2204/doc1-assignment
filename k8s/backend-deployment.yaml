@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: hello-world-backend:latest
+        image: ghcr.io/your-username/your-repo/backend:latest
         ports:
         - containerPort: 3000
         resources:

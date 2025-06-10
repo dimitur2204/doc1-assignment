@@ -85,9 +85,29 @@ The project includes GitHub Actions workflows for:
 - Frontend Test: Runs frontend tests
 
 ### Continuous Deployment (CD)
-- Builds and pushes Docker images to container registry
-- Uses GitHub SHA for image versioning
+- Builds and pushes Docker images to GitHub Container Registry (GHCR)
+- Uses semantic versioning for image tags
 - Implements Docker layer caching for faster builds
+
+### Container Images
+
+The application's container images are available on GitHub Container Registry:
+- Backend: `ghcr.io/<your-username>/<your-repo>/backend`
+- Frontend: `ghcr.io/<your-username>/<your-repo>/frontend`
+
+To use these images:
+1. Make sure you're logged in to GHCR:
+```bash
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+```
+
+2. Pull the images:
+```bash
+docker pull ghcr.io/<your-username>/<your-repo>/backend:latest
+docker pull ghcr.io/<your-username>/<your-repo>/frontend:latest
+```
+
+Note: Replace `<your-username>` and `<your-repo>` with your actual GitHub username and repository name.
 
 ### Required Secrets
 

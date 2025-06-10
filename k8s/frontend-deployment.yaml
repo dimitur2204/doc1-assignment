@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: hello-world-frontend:latest
+        image: ghcr.io/dimitur2204/doc1-assignment/frontend:latest
         ports:
         - containerPort: 5173
         env:
